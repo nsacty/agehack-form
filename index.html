@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AGEHACK 有効性調査問診フォーム</title>
+<title>AGEHACK 有効性調査 問診フォーム</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -554,31 +554,50 @@ const amsItems = [
 
 const amsOpts = ["症状なし", "軽症", "中等症", "重症", "非常に重症"];
 
-// ===== SMI項目 =====
+// ===== SMI項目（小山式・100点満点） =====
+// 配点: [なし, 少し, 中等度, 強い]
 const smiItems = [
-  "顔がほてる",
-  "汗をかきやすい",
-  "腰や手足が冷えやすい",
-  "息切れ・動悸がする",
-  "寝つきが悪い・眠りが浅い",
-  "怒りやすく、すぐイライラする",
-  "くよくよしたり、憂鬱になることがある",
-  "頭痛・めまい・吐き気がよくある",
-  "疲れやすい",
-  "肩こり・腰痛・手足の痛みがある"
+  { q: "顔がほてる",                   weights: [0, 3, 6, 10] },
+  { q: "汗をかきやすい",               weights: [0, 3, 6, 10] },
+  { q: "腰や手足が冷えやすい",         weights: [0, 5, 9, 14] },
+  { q: "息切れ・動悸がする",           weights: [0, 4, 8, 12] },
+  { q: "寝つきが悪い・眠りが浅い",     weights: [0, 5, 9, 14] },
+  { q: "怒りやすく、すぐイライラする", weights: [0, 4, 8, 12] },
+  { q: "くよくよしたり、憂鬱になることがある", weights: [0, 3, 5, 7] },
+  { q: "頭痛・めまい・吐き気がよくある",      weights: [0, 3, 5, 7] },
+  { q: "疲れやすい",                   weights: [0, 2, 4, 7] },
+  { q: "肩こり・腰痛・手足の痛みがある", weights: [0, 3, 5, 7] }
 ];
 
 const smiOpts = ["なし", "少し", "中等度", "強い"];
 
-// ===== PSQI項目 =====
+// ===== PSQI項目（7成分・グローバルスコア0〜21点） =====
+// C1: 主観的睡眠の質
+// C2: 睡眠潜時（Q_latency + Q_nodrop30）
+// C3: 睡眠時間
+// C4: 睡眠効率（就寝時刻・起床時刻・睡眠時間から算出）
+// C5: 睡眠障害（夜間覚醒・中途覚醒など）
+// C6: 睡眠薬使用
+// C7: 日中機能障害（Q_drowsy + Q_motivation）
+
 const psqiItems = [
-  { q: "過去1ヶ月の、全体的な睡眠の質はいかがでしたか？", opts: ["とても良い", "比較的良い", "比較的悪い", "とても悪い"] },
-  { q: "過去1ヶ月の、平均的な就寝時刻は何時頃でしたか？", opts: ["22時以前", "22〜24時", "0〜2時", "2時以降"] },
-  { q: "眠りにつくまでにかかる時間（平均）はどれくらいですか？", opts: ["15分以内", "16〜30分", "31〜60分", "60分以上"] },
-  { q: "朝、目が覚める時刻（平均）はいつ頃ですか？", opts: ["5時以前", "5〜7時", "7〜9時", "9時以降"] },
-  { q: "実際に眠れている時間（平均）はどれくらいですか？", opts: ["7時間以上", "6〜7時間", "5〜6時間", "5時間未満"] },
-  { q: "夜中や早朝に目が覚めることがありますか？", opts: ["全くない", "週1回未満", "週1〜2回", "週3回以上"] },
-  { q: "日中、眠気を感じたり、活動するのに支障がありましたか？", opts: ["全くない", "週1回未満", "週1〜2回", "週3回以上"] }
+  // C1
+  { id: "c1_quality",    comp: "C1", q: "過去1ヶ月の睡眠の質を全体的にどう評価しますか？", opts: ["とても良い", "比較的良い", "比較的悪い", "とても悪い"] },
+  // C2 (2問で算出)
+  { id: "c2a_latency",   comp: "C2a", q: "眠りにつくまでにかかる時間（平均）はどれくらいですか？", opts: ["15分以内", "16〜30分", "31〜60分", "60分以上"] },
+  { id: "c2b_nodrop30",  comp: "C2b", q: "30分以内に眠れなかったことがありましたか？", opts: ["全くない", "週1回未満", "週1〜2回", "週3回以上"] },
+  // C3
+  { id: "c3_duration",   comp: "C3", q: "実際に眠れている時間（平均）はどれくらいですか？", opts: ["7時間以上", "6〜7時間", "5〜6時間", "5時間未満"] },
+  // C4用（就寝・起床・睡眠時間から効率を算出）
+  { id: "c4a_bedtime",   comp: "C4a", q: "平均的な就寝時刻は何時頃ですか？", opts: ["22時以前", "22〜24時", "0〜2時", "2時以降"] },
+  { id: "c4b_waketime",  comp: "C4b", q: "平均的な起床時刻は何時頃ですか？", opts: ["5時以前", "5〜7時", "7〜9時", "9時以降"] },
+  // C5
+  { id: "c5_disturb",    comp: "C5", q: "夜中や早朝に目が覚めたり、眠れないことがありましたか？", opts: ["全くない", "週1回未満", "週1〜2回", "週3回以上"] },
+  // C6
+  { id: "c6_medication", comp: "C6", q: "睡眠薬（市販薬・処方薬を含む）を使用しましたか？", opts: ["全くない", "週1回未満", "週1〜2回", "週3回以上"] },
+  // C7 (2問で算出)
+  { id: "c7a_drowsy",    comp: "C7a", q: "日中に眠くて、車の運転・食事・会話などに支障がありましたか？", opts: ["全くない", "週1回未満", "週1〜2回", "週3回以上"] },
+  { id: "c7b_motivation",comp: "C7b", q: "物事への意欲・熱意を保つのが難しいと感じましたか？", opts: ["全くない", "週1回未満", "週1〜2回", "週3回以上"] }
 ];
 
 // ===== VAS項目 =====
@@ -614,9 +633,9 @@ function initAMS() {
 
 function initSMI() {
   const el = document.getElementById('smi-items');
-  el.innerHTML = smiItems.map((q, i) => `
+  el.innerHTML = smiItems.map((item, i) => `
     <div class="scale-item">
-      <div class="q-text"><span class="q-num">${i+1}.</span>${q}</div>
+      <div class="q-text"><span class="q-num">${i+1}.</span>${item.q}</div>
       <div class="scale-options">
         ${smiOpts.map((o, j) => `
           <label>
@@ -637,7 +656,7 @@ function initPSQI() {
       <div class="scale-options">
         ${item.opts.map((o, j) => `
           <label>
-            <input type="radio" name="psqi${i}" value="${j}">
+            <input type="radio" name="psqi_${item.id}" value="${j}">
             <span class="opt-box">${o}</span>
           </label>
         `).join('')}
@@ -735,7 +754,7 @@ function goStep3() {
 
 function goStep4() {
   for (let i = 0; i < psqiItems.length; i++) {
-    if (!document.querySelector(`input[name="psqi${i}"]:checked`)) {
+    if (!document.querySelector(`input[name="psqi_${psqiItems[i].id}"]:checked`)) {
       alert('すべての項目にお答えください。');
       return;
     }
@@ -760,28 +779,78 @@ function collectAnswers() {
     submitted_at: new Date().toLocaleString('ja-JP'),
   };
 
+  // AMS（男性）
   if (gender === '男性') {
     let total = 0;
     amsItems.forEach((q, i) => {
       const v = parseInt(document.querySelector(`input[name="ams${i}"]:checked`).value);
-      answers[`AMS${i+1}_${q.substring(0,10)}`] = v;
+      answers[`AMS${i+1}`] = v;
       total += v;
     });
     answers['AMS合計'] = total;
-  } else {
+  }
+
+  // SMI（女性）小山式配点
+  if (gender === '女性') {
     let total = 0;
-    smiItems.forEach((q, i) => {
-      const v = parseInt(document.querySelector(`input[name="smi${i}"]:checked`).value);
-      answers[`SMI${i+1}_${q.substring(0,10)}`] = v;
-      total += v;
+    smiItems.forEach((item, i) => {
+      const sel = parseInt(document.querySelector(`input[name="smi${i}"]:checked`).value);
+      const score = item.weights[sel];
+      answers[`SMI${i+1}_${item.q.substring(0,8)}`] = score;
+      total += score;
     });
     answers['SMI合計'] = total;
   }
 
-  psqiItems.forEach((item, i) => {
-    answers[`PSQI${i+1}`] = parseInt(document.querySelector(`input[name="psqi${i}"]:checked`).value);
+  // PSQI 7成分スコア算出
+  const pv = {};
+  psqiItems.forEach(item => {
+    pv[item.id] = parseInt(document.querySelector(`input[name="psqi_${item.id}"]:checked`).value);
+    answers[`PSQI_${item.id}`] = pv[item.id];
   });
 
+  // C1: 主観的睡眠の質
+  const C1 = pv['c1_quality'];
+
+  // C2: 睡眠潜時（潜時スコア + 30分以内に眠れなかった頻度の合計で再換算）
+  const c2sum = pv['c2a_latency'] + pv['c2b_nodrop30'];
+  const C2 = c2sum === 0 ? 0 : c2sum <= 2 ? 1 : c2sum <= 4 ? 2 : 3;
+
+  // C3: 睡眠時間
+  const C3 = pv['c3_duration'];
+
+  // C4: 睡眠効率（就寝〜起床の推定在床時間と睡眠時間から算出）
+  // 就寝時刻の中央値(h): 21, 23, 1, 3
+  // 起床時刻の中央値(h): 4.5, 6, 8, 10
+  const bedMid  = [21, 23, 25, 27][pv['c4a_bedtime']]; // 0時越えは+24換算
+  const wakeMid = [4.5, 6, 8, 10][pv['c4b_waketime']];
+  const sleepMid = [7.5, 6.5, 5.5, 4.5][pv['c3_duration']];
+  const timeInBed = wakeMid + 24 - bedMid;
+  const efficiency = timeInBed > 0 ? (sleepMid / timeInBed) * 100 : 0;
+  const C4 = efficiency >= 85 ? 0 : efficiency >= 75 ? 1 : efficiency >= 65 ? 2 : 3;
+
+  // C5: 睡眠障害
+  const C5 = pv['c5_disturb'];
+
+  // C6: 睡眠薬使用
+  const C6 = pv['c6_medication'];
+
+  // C7: 日中機能障害
+  const c7sum = pv['c7a_drowsy'] + pv['c7b_motivation'];
+  const C7 = c7sum === 0 ? 0 : c7sum <= 2 ? 1 : c7sum <= 4 ? 2 : 3;
+
+  const psqiGlobal = C1 + C2 + C3 + C4 + C5 + C6 + C7;
+
+  answers['PSQI_C1_主観的睡眠の質'] = C1;
+  answers['PSQI_C2_睡眠潜時']       = C2;
+  answers['PSQI_C3_睡眠時間']       = C3;
+  answers['PSQI_C4_睡眠効率']       = C4;
+  answers['PSQI_C5_睡眠障害']       = C5;
+  answers['PSQI_C6_睡眠薬使用']     = C6;
+  answers['PSQI_C7_日中機能障害']   = C7;
+  answers['PSQIグローバルスコア']    = psqiGlobal;
+
+  // VAS
   vasItems.forEach(v => {
     answers[v.id] = parseInt(document.getElementById(v.id).value);
   });
@@ -793,8 +862,9 @@ function buildConfirmTable() {
     ['お名前', answers.name],
     ['性別', answers.gender],
     ['測定タイミング', answers.timing],
-    [answers.gender === '男性' ? 'AMSスコア合計' : 'SMI合計',
-     answers[answers.gender === '男性' ? 'AMS合計' : 'SMI合計'] + ' 点'],
+    [answers.gender === '男性' ? 'AMSスコア合計' : 'SMI合計（小山式）',
+     answers.gender === '男性' ? answers['AMS合計'] + ' 点' : answers['SMI合計'] + ' 点 / 100点'],
+    ['PSQIグローバルスコア', answers['PSQIグローバルスコア'] + ' 点 / 21点'],
     ['VAS 活力', answers['vas_vitality'] + ' / 100'],
     ['VAS 疲労感', answers['vas_fatigue'] + ' / 100'],
     ['VAS 気分安定感', answers['vas_mood'] + ' / 100'],
