@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGEHACK 観察研究 問診フォーム</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2640;
+    --teal: #2a6b6b;
+    --teal-light: #3d8c8c;
+    --cream: #f8f5f0;
+    --warm-white: #fdfcfa;
+    --border: #ddd8d0;
+    --text: #2c2c2c;
+    --text-light: #6b6b6b;
+    --accent: #c17f3a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  header h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+  }
+
+  header .sub {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+
+  .progress-bar {
+    background: rgba(255,255,255,0.1);
+    height: 3px;
+    margin-top: 16px;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .step { display: none; }
+  .step.active { display: block; animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-header {
+    margin-bottom: 32px;
+  }
+
+  .step-num {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--teal);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .step-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 1.4;
+  }
+
+  .step-desc {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 10px;
+    line-height: 1.7;
+  }
+
+  .card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 16px;
+  }
+
+  .field-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .field-label.required::after {
+    content: " *";
+    color: var(--accent);
+  }
+
+  input[type="text"],
+  select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.9rem;
+    background: white;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input[type="text"]:focus,
+  select:focus {
+    border-color: var(--teal);
+  }
+
+  .radio-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .radio-btn {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .radio-btn input { display: none; }
+
+  .radio-btn label {
+    display: block;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+  }
+
+  .radio-btn input:checked + label {
+    border-color: var(--teal);
+    background: var(--teal);
+    color: white;
+  }
+
+  /* スケール質問 */
+  .scale-item {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .scale-item:last-child { border-bottom: none; }
+
+  .scale-item .q-text {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 14px;
+    color: var(--text);
+  }
+
+  .scale-item .q-num {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-right: 6px;
+  }
+
+  .scale-options {
+    display: flex;
+    gap: 6px;
+  }
+
+  .scale-options label {
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .scale-options input { display: none; }
+
+  .scale-options .opt-box {
+    display: block;
+    padding: 8px 4px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.78rem;
+    background: white;
+    transition: all 0.2s;
+    line-height: 1.3;
+  }
+
+  .scale-options input:checked + .opt-box {
+    border-color: var(--teal);
+    background: var(--teal);
+    color: white;
+  }
+
+  /* VAS スライダー */
+  .vas-item {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .vas-item:last-child { border-bottom: none; }
+
+  .vas-item .q-text {
+    font-size: 0.88rem;
+    margin-bottom: 16px;
+  }
+
+  .vas-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+
+  .vas-value {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    accent-color: var(--teal);
+    height: 6px;
+    cursor: pointer;
+  }
+
+  /* ボタン */
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .btn-next {
+    flex: 1;
+    padding: 16px;
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: background 0.2s;
+  }
+
+  .btn-next:hover { background: var(--teal-light); }
+
+  .btn-back {
+    padding: 16px 24px;
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-back:hover { border-color: var(--navy); color: var(--navy); }
+
+  .btn-submit {
+    flex: 1;
+    padding: 16px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: background 0.2s;
+  }
+
+  .btn-submit:hover { background: #243352; }
+
+  /* 確認画面 */
+  .confirm-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .confirm-table tr { border-bottom: 1px solid var(--border); }
+  .confirm-table td { padding: 12px 8px; }
+  .confirm-table td:first-child { color: var(--text-light); width: 40%; }
+
+  /* 完了画面 */
+  .complete-icon {
+    width: 64px; height: 64px;
+    background: var(--teal);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+  }
+  .complete-icon svg { width: 32px; height: 32px; stroke: white; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  .complete-msg {
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .complete-msg h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  .complete-msg p {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    line-height: 1.8;
+  }
+
+  .error-msg {
+    color: #c0392b;
+    font-size: 0.8rem;
+    margin-top: 6px;
+  }
+
+  @media (max-width: 480px) {
+    .scale-options .opt-box { font-size: 0.7rem; padding: 6px 2px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>AGEHACK 観察研究</h1>
+    <div class="sub">参加者問診フォーム</div>
+  </div>
+  <div style="text-align:right;">
+    <div class="sub" id="step-indicator">STEP 1 / 4</div>
+  </div>
+  <div class="progress-bar" style="position:absolute;bottom:0;left:0;right:0;margin:0;border-radius:0;">
+    <div class="progress-fill" id="progress" style="width:25%"></div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- STEP 1: 基本情報 -->
+  <div class="step active" id="step1">
+    <div class="step-header">
+      <div class="step-num">Step 01</div>
+      <div class="step-title">基本情報</div>
+      <div class="step-desc">お名前と今回の測定タイミングをご入力ください。</div>
+    </div>
+
+    <div class="card">
+      <label class="field-label required">お名前</label>
+      <input type="text" id="name" placeholder="例：山田 太郎">
+      <div class="error-msg" id="name-err"></div>
+    </div>
+
+    <div class="card">
+      <label class="field-label required">性別</label>
+      <div class="radio-group">
+        <div class="radio-btn">
+          <input type="radio" name="gender" id="g-male" value="男性">
+          <label for="g-male">男性</label>
+        </div>
+        <div class="radio-btn">
+          <input type="radio" name="gender" id="g-female" value="女性">
+          <label for="g-female">女性</label>
+        </div>
+      </div>
+      <div class="error-msg" id="gender-err"></div>
+    </div>
+
+    <div class="card">
+      <label class="field-label required">測定タイミング</label>
+      <div class="radio-group">
+        <div class="radio-btn">
+          <input type="radio" name="timing" id="t0" value="0週（開始前）">
+          <label for="t0">0週（開始前）</label>
+        </div>
+        <div class="radio-btn">
+          <input type="radio" name="timing" id="t6" value="6週">
+          <label for="t6">6週</label>
+        </div>
+        <div class="radio-btn">
+          <input type="radio" name="timing" id="t12" value="12週">
+          <label for="t12">12週</label>
+        </div>
+      </div>
+      <div class="error-msg" id="timing-err"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-next" onclick="goStep2()">次へ →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: AMS / SMI -->
+  <div class="step" id="step2">
+    <div class="step-header">
+      <div class="step-num">Step 02</div>
+      <div class="step-title" id="step2-title">症状スコア</div>
+      <div class="step-desc" id="step2-desc"></div>
+    </div>
+
+    <!-- AMS（男性） -->
+    <div id="ams-section">
+      <div class="card">
+        <div id="ams-items"></div>
+      </div>
+    </div>
+
+    <!-- SMI（女性） -->
+    <div id="smi-section" style="display:none;">
+      <div class="card">
+        <div id="smi-items"></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="showStep(1)">← 戻る</button>
+      <button class="btn-next" onclick="goStep3()">次へ →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: PSQI -->
+  <div class="step" id="step3">
+    <div class="step-header">
+      <div class="step-num">Step 03</div>
+      <div class="step-title">睡眠の質</div>
+      <div class="step-desc">過去1ヶ月間の、典型的な夜の睡眠についてお答えください。</div>
+    </div>
+
+    <div class="card" id="psqi-items"></div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="showStep(2)">← 戻る</button>
+      <button class="btn-next" onclick="goStep4()">次へ →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: VAS -->
+  <div class="step" id="step4">
+    <div class="step-header">
+      <div class="step-num">Step 04</div>
+      <div class="step-title">体感・コンディション</div>
+      <div class="step-desc">現在の状態をスライダーで教えてください。（0〜100）</div>
+    </div>
+
+    <div class="card">
+      <div id="vas-items"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="showStep(3)">← 戻る</button>
+      <button class="btn-next" onclick="goStep5()">確認画面へ →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: 確認 -->
+  <div class="step" id="step5">
+    <div class="step-header">
+      <div class="step-num">Step 05</div>
+      <div class="step-title">送信確認</div>
+      <div class="step-desc">内容をご確認の上、送信してください。</div>
+    </div>
+
+    <div class="card">
+      <table class="confirm-table" id="confirm-table"></table>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="showStep(4)">← 戻る</button>
+      <button class="btn-submit" onclick="submitForm()">送信する</button>
+    </div>
+    <div class="error-msg" id="submit-err" style="margin-top:12px;text-align:center;"></div>
+  </div>
+
+  <!-- 完了 -->
+  <div class="step" id="step-complete">
+    <div class="complete-msg">
+      <div class="complete-icon">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <h2>送信完了しました</h2>
+      <p>ご回答ありがとうございました。<br>次回の測定タイミングもよろしくお願いいたします。</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ===== 設定 =====
+// Google Apps ScriptのデプロイURLをここに貼り付けてください
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyoAy_Lv2eF3XK4wXQEIFFLOJUMzuJYiguY5riz1LmtoQLZcWHJFWuY6Mfd-QwZXmprqQ/exec";
+
+// ===== AMS項目 =====
+const amsItems = [
+  "全体的な健康感が低下した",
+  "関節の痛みや筋肉のこり",
+  "ひどい発汗（天候や運動と無関係）",
+  "睡眠の問題（寝つきが悪い・熟睡できない）",
+  "よく眠くなる・疲れやすい",
+  "いらいらする",
+  "神経質になった",
+  "不安感がある",
+  "体力の低下",
+  "筋力の低下",
+  "憂うつな気分になる",
+  "絶頂期は過ぎたと感じる",
+  "消耗した・どん底にいると感じる",
+  "ひげの伸びが遅くなった",
+  "性的能力が衰えた",
+  "早朝勃起の回数が減った",
+  "性欲が低下した"
+];
+
+const amsOpts = ["症状なし", "軽症", "中等症", "重症", "非常に重症"];
+
+// ===== SMI項目 =====
+const smiItems = [
+  "顔がほてる",
+  "汗をかきやすい",
+  "腰や手足が冷えやすい",
+  "息切れ・動悸がする",
+  "寝つきが悪い・眠りが浅い",
+  "怒りやすく、すぐイライラする",
+  "くよくよしたり、憂鬱になることがある",
+  "頭痛・めまい・吐き気がよくある",
+  "疲れやすい",
+  "肩こり・腰痛・手足の痛みがある"
+];
+
+const smiOpts = ["なし", "少し", "中等度", "強い"];
+
+// ===== PSQI項目 =====
+const psqiItems = [
+  { q: "過去1ヶ月の、全体的な睡眠の質はいかがでしたか？", opts: ["とても良い", "比較的良い", "比較的悪い", "とても悪い"] },
+  { q: "過去1ヶ月の、平均的な就寝時刻は何時頃でしたか？", opts: ["22時以前", "22〜24時", "0〜2時", "2時以降"] },
+  { q: "眠りにつくまでにかかる時間（平均）はどれくらいですか？", opts: ["15分以内", "16〜30分", "31〜60分", "60分以上"] },
+  { q: "朝、目が覚める時刻（平均）はいつ頃ですか？", opts: ["5時以前", "5〜7時", "7〜9時", "9時以降"] },
+  { q: "実際に眠れている時間（平均）はどれくらいですか？", opts: ["7時間以上", "6〜7時間", "5〜6時間", "5時間未満"] },
+  { q: "夜中や早朝に目が覚めることがありますか？", opts: ["全くない", "週1回未満", "週1〜2回", "週3回以上"] },
+  { q: "日中、眠気を感じたり、活動するのに支障がありましたか？", opts: ["全くない", "週1回未満", "週1〜2回", "週3回以上"] }
+];
+
+// ===== VAS項目 =====
+const vasItems = [
+  { id: "vas_vitality", label: "活力・気力", left: "まったくない", right: "非常に高い" },
+  { id: "vas_fatigue", label: "疲労感", left: "疲れていない", right: "非常に疲れている" },
+  { id: "vas_mood", label: "気分・メンタルの安定感", left: "とても不安定", right: "非常に安定している" },
+  { id: "vas_focus", label: "集中力・頭の切れ", left: "まったくない", right: "非常に高い" },
+  { id: "vas_sleep_feel", label: "睡眠の満足感", left: "まったく満足していない", right: "非常に満足している" }
+];
+
+// ===== 状態 =====
+let currentStep = 1;
+let answers = {};
+
+// ===== 初期化 =====
+function initAMS() {
+  const el = document.getElementById('ams-items');
+  el.innerHTML = amsItems.map((q, i) => `
+    <div class="scale-item">
+      <div class="q-text"><span class="q-num">${i+1}.</span>${q}</div>
+      <div class="scale-options">
+        ${amsOpts.map((o, j) => `
+          <label>
+            <input type="radio" name="ams${i}" value="${j+1}">
+            <span class="opt-box">${o}</span>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function initSMI() {
+  const el = document.getElementById('smi-items');
+  el.innerHTML = smiItems.map((q, i) => `
+    <div class="scale-item">
+      <div class="q-text"><span class="q-num">${i+1}.</span>${q}</div>
+      <div class="scale-options">
+        ${smiOpts.map((o, j) => `
+          <label>
+            <input type="radio" name="smi${i}" value="${j}">
+            <span class="opt-box">${o}</span>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function initPSQI() {
+  const el = document.getElementById('psqi-items');
+  el.innerHTML = psqiItems.map((item, i) => `
+    <div class="scale-item">
+      <div class="q-text"><span class="q-num">${i+1}.</span>${item.q}</div>
+      <div class="scale-options">
+        ${item.opts.map((o, j) => `
+          <label>
+            <input type="radio" name="psqi${i}" value="${j}">
+            <span class="opt-box">${o}</span>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function initVAS() {
+  const el = document.getElementById('vas-items');
+  el.innerHTML = vasItems.map(v => `
+    <div class="vas-item">
+      <div class="q-text">${v.label}</div>
+      <div class="vas-value" id="${v.id}-val">50</div>
+      <div class="vas-labels">
+        <span>${v.left}</span>
+        <span>${v.right}</span>
+      </div>
+      <input type="range" min="0" max="100" value="50" id="${v.id}"
+        oninput="document.getElementById('${v.id}-val').textContent = this.value">
+    </div>
+  `).join('');
+}
+
+// ===== ステップ移動 =====
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  currentStep = n;
+
+  const total = 4;
+  document.getElementById('step-indicator').textContent = `STEP ${n} / ${total}`;
+  document.getElementById('progress').style.width = (n / total * 100) + '%';
+  window.scrollTo(0, 0);
+}
+
+function showComplete() {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-complete').classList.add('active');
+  document.getElementById('progress').style.width = '100%';
+  document.getElementById('step-indicator').textContent = '完了';
+  window.scrollTo(0, 0);
+}
+
+function goStep2() {
+  // バリデーション
+  let ok = true;
+  if (!document.getElementById('name').value.trim()) {
+    document.getElementById('name-err').textContent = '※ お名前を入力してください';
+    ok = false;
+  } else { document.getElementById('name-err').textContent = ''; }
+
+  if (!document.querySelector('input[name="gender"]:checked')) {
+    document.getElementById('gender-err').textContent = '※ 性別を選択してください';
+    ok = false;
+  } else { document.getElementById('gender-err').textContent = ''; }
+
+  if (!document.querySelector('input[name="timing"]:checked')) {
+    document.getElementById('timing-err').textContent = '※ 測定タイミングを選択してください';
+    ok = false;
+  } else { document.getElementById('timing-err').textContent = ''; }
+
+  if (!ok) return;
+
+  const gender = document.querySelector('input[name="gender"]:checked').value;
+
+  if (gender === '男性') {
+    document.getElementById('step2-title').textContent = 'AMSスコア（男性）';
+    document.getElementById('step2-desc').textContent = '過去4週間の症状について、当てはまるものを選んでください。';
+    document.getElementById('ams-section').style.display = 'block';
+    document.getElementById('smi-section').style.display = 'none';
+  } else {
+    document.getElementById('step2-title').textContent = '簡略更年期指数（女性）';
+    document.getElementById('step2-desc').textContent = '現在の症状の程度について、当てはまるものを選んでください。';
+    document.getElementById('ams-section').style.display = 'none';
+    document.getElementById('smi-section').style.display = 'block';
+  }
+
+  showStep(2);
+}
+
+function goStep3() {
+  const gender = document.querySelector('input[name="gender"]:checked').value;
+  const prefix = gender === '男性' ? 'ams' : 'smi';
+  const count = gender === '男性' ? amsItems.length : smiItems.length;
+
+  for (let i = 0; i < count; i++) {
+    if (!document.querySelector(`input[name="${prefix}${i}"]:checked`)) {
+      alert('すべての項目にお答えください。');
+      return;
+    }
+  }
+  showStep(3);
+}
+
+function goStep4() {
+  for (let i = 0; i < psqiItems.length; i++) {
+    if (!document.querySelector(`input[name="psqi${i}"]:checked`)) {
+      alert('すべての項目にお答えください。');
+      return;
+    }
+  }
+  showStep(4);
+}
+
+function goStep5() {
+  collectAnswers();
+  buildConfirmTable();
+  showStep(5);
+}
+
+// ===== データ収集 =====
+function collectAnswers() {
+  const gender = document.querySelector('input[name="gender"]:checked').value;
+
+  answers = {
+    name: document.getElementById('name').value.trim(),
+    gender: gender,
+    timing: document.querySelector('input[name="timing"]:checked').value,
+    submitted_at: new Date().toLocaleString('ja-JP'),
+  };
+
+  if (gender === '男性') {
+    let total = 0;
+    amsItems.forEach((q, i) => {
+      const v = parseInt(document.querySelector(`input[name="ams${i}"]:checked`).value);
+      answers[`AMS${i+1}_${q.substring(0,10)}`] = v;
+      total += v;
+    });
+    answers['AMS合計'] = total;
+  } else {
+    let total = 0;
+    smiItems.forEach((q, i) => {
+      const v = parseInt(document.querySelector(`input[name="smi${i}"]:checked`).value);
+      answers[`SMI${i+1}_${q.substring(0,10)}`] = v;
+      total += v;
+    });
+    answers['SMI合計'] = total;
+  }
+
+  psqiItems.forEach((item, i) => {
+    answers[`PSQI${i+1}`] = parseInt(document.querySelector(`input[name="psqi${i}"]:checked`).value);
+  });
+
+  vasItems.forEach(v => {
+    answers[v.id] = parseInt(document.getElementById(v.id).value);
+  });
+}
+
+function buildConfirmTable() {
+  const tbl = document.getElementById('confirm-table');
+  const rows = [
+    ['お名前', answers.name],
+    ['性別', answers.gender],
+    ['測定タイミング', answers.timing],
+    [answers.gender === '男性' ? 'AMSスコア合計' : 'SMI合計',
+     answers[answers.gender === '男性' ? 'AMS合計' : 'SMI合計'] + ' 点'],
+    ['VAS 活力', answers['vas_vitality'] + ' / 100'],
+    ['VAS 疲労感', answers['vas_fatigue'] + ' / 100'],
+    ['VAS 気分安定感', answers['vas_mood'] + ' / 100'],
+    ['VAS 集中力', answers['vas_focus'] + ' / 100'],
+    ['VAS 睡眠満足感', answers['vas_sleep_feel'] + ' / 100'],
+  ];
+
+  tbl.innerHTML = rows.map(([k, v]) => `<tr><td>${k}</td><td><strong>${v}</strong></td></tr>`).join('');
+}
+
+// ===== 送信 =====
+async function submitForm() {
+  const btn = document.querySelector('.btn-submit');
+  btn.textContent = '送信中…';
+  btn.disabled = true;
+  document.getElementById('submit-err').textContent = '';
+
+  try {
+    await fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(answers)
+    });
+    showComplete();
+  } catch (e) {
+    document.getElementById('submit-err').textContent = '送信に失敗しました。もう一度お試しください。';
+    btn.textContent = '送信する';
+    btn.disabled = false;
+  }
+}
+
+// ===== 初期化実行 =====
+initAMS();
+initSMI();
+initPSQI();
+initVAS();
+</script>
+</body>
+</html>
