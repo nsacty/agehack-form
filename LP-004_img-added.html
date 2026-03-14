@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGEHACK - ホルモンサポートサプリメント</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS変数でカラーシステムを管理 */
+        :root {
+            /* カラーパレット */
+            --color-primary: #2c5f7c;
+            --color-primary-light: #4a90a4;
+            --color-primary-lighter: #6ba8be;
+            --color-secondary: #e7f3f8;
+            --color-secondary-light: #f0f7fa;
+            --color-accent: #fff59d;
+            --color-text: #333;
+            --color-text-light: #666;
+            --color-text-lighter: #999;
+            --color-border: #e3eff5;
+            
+            /* スペーシングシステム（8px基準） */
+            --space-xs: 8px;
+            --space-sm: 16px;
+            --space-md: 24px;
+            --space-lg: 32px;
+            --space-xl: 48px;
+            --space-2xl: 64px;
+            --space-3xl: 80px;
+            
+            /* 影の階層 */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.15);
+            
+            /* タイポグラフィ */
+            --font-ja: 'Noto Sans JP', sans-serif;
+            --font-en: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-ja);
+            line-height: 1.9;
+            color: var(--color-text);
+            background-color: #fafbfc;
+            font-size: 16px;
+        }
+
+        /* 数字・英字は欧文フォント */
+        .en-number {
+            font-family: var(--font-en);
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-xl) var(--space-lg);
+            background-color: #fff;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ヘッダー */
+        .header {
+            text-align: center;
+            padding: var(--space-2xl) var(--space-lg);
+            background: linear-gradient(135deg, #f0f7fa 0%, #e3f2f7 100%);
+            border-radius: 16px;
+            margin-bottom: var(--space-3xl);
+            box-shadow: var(--shadow-md);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: var(--space-sm);
+            letter-spacing: 0.08em;
+        }
+
+        /* セクション */
+        .section {
+            margin-bottom: var(--space-3xl);
+            padding: var(--space-xl) var(--space-xl);
+            border-radius: 12px;
+        }
+
+        /* セクション背景色のバリエーション */
+        .section-bg-1 {
+            background-color: #fafbfc;
+        }
+
+        .section-bg-2 {
+            background-color: #f8fafb;
+        }
+
+        .section-bg-3 {
+            background-color: #f5f8fa;
+        }
+
+        /* H1見出し */
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c5f7c;
+            border-left: 6px solid #4a90a4;
+            padding-left: 20px;
+//            margin-bottom: 50px;
+            margin-bottom: 24px;
+            line-height: 1.5;
+
+
+/*
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+            padding: var(--space-md) var(--space-lg);
+            margin: calc(var(--space-xl) * -1) calc(var(--space-xl) * -1) var(--space-xl) calc(var(--space-xl) * -1);
+            border-radius: 12px 12px 0 0;
+            line-height: 1.5;
+            box-shadow: var(--shadow-md);
+            letter-spacing: 0.05em;
+*/
+        }
+
+        .section-subtitle {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-primary);
+//            margin-top: var(--space-2xl);
+            margin-top: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-sm);
+            border-bottom: 3px solid var(--color-secondary);
+            position: relative;
+            letter-spacing: 0.03em;
+        }
+
+        .section-subtitle::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: var(--color-primary-light);
+        }
+
+        /* テキスト強調 - 黄色背景 */
+        .highlight-text {
+            background: linear-gradient(transparent 60%, var(--color-accent) 60%);
+            font-weight: 700;
+            padding: 0 4px;
+        }
+
+        /* テキスト */
+        p {
+            margin-bottom: var(--space-md);
+            line-height: 2;
+        }
+
+        /* ボタン */
+        .btn {
+            display: inline-block;
+            padding: var(--space-sm) var(--space-xl);
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-ja);
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+            color: #fff;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-secondary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-container {
+            text-align: center;
+            margin: var(--space-xl) 0;
+        }
+
+        /* チェックリスト */
+        .checklist {
+            position: relative; /* 子要素の基準点にする */
+            overflow: hidden;   /* はみ出した画像をカットする */
+            z-index: 1;
+            background: linear-gradient(135deg, #f8fafb 0%, #f0f4f7 100%);
+            padding: var(--space-xl);
+            border-radius: 12px;
+            margin: var(--space-xl) 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* 背景画像の設定 */
+        .checklist-bg-image {
+            position: absolute; /* 浮かせた状態にする */
+            right: 0;           /* 右寄せ */
+            bottom: 0;          /* 下寄せ（お好みで調整） */
+            width: 200px;       /* 画像のサイズ（お好みで） */
+            height: auto;
+            opacity: 0.9;       /* 文字の邪魔をしないよう少し薄くする */
+            z-index: -1;        /* 文字の下に配置 */
+            pointer-events: none; /* 画像がクリックの邪魔をしないようにする */
+        }
+        
+        /* 文字が画像と重なって見づらい場合の調整 */
+        .checklist-item {
+            position: relative; /* 文字を画像より上に表示 */
+            z-index: 2;
+            max-width: 70%;     /* 文字が画像に被りすぎないよう幅を制限（任意） */
+        }
+
+
+        .checklist-item {
+            padding: 14px 0;
+            font-size: 17px;
+            display: flex;
+            align-items: flex-start;
+            line-height: 1;
+        }
+
+        .checklist-item:hover {
+            transform: translateX(4px);
+        }
+
+        .checklist-item:before {
+            content: "✓";
+            color: var(--color-primary-light);
+            font-weight: 700;
+            margin-right: var(--space-sm);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        /* ハイライトボックス */
+        .highlight-box {
+            background: linear-gradient(135deg, var(--color-secondary) 0%, #d4eaf2 100%);
+            border-left: 5px solid var(--color-primary-light);
+            padding: var(--space-lg) var(--space-xl);
+            margin: var(--space-xl) 0;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-box p {
+            margin-bottom: var(--space-sm);
+        }
+
+        .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 画像プレースホルダー */
+        .image-placeholder {
+            background: linear-gradient(135deg, #f0f4f7 0%, #e8eef3 100%);
+            padding: var(--space-2xl);
+            text-align: center;
+            border-radius: 12px;
+            margin: var(--space-xl) 0;
+            color: #7a8895;
+            font-style: italic;
+            border: 2px dashed var(--color-border);
+        }
+
+        /* イラスト用プレースホルダー */
+        .illustration-placeholder {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3d9 100%);
+            padding: var(--space-sm);
+            margin: var(--space-sm) 0;
+            text-align: center;
+            border-radius: 12px;
+            color: #b8860b;
+            font-style: italic;
+//            border: 2px dashed #ffe4a3;
+            font-size: 14px;
+        }
+
+        /* ロゴグリッド */
+        .logo-grid {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+            margin: var(--space-xl) 0;
+        }
+
+        .logo-item {
+            background: linear-gradient(135deg, #f8fafb 0%, #f0f4f7 100%);
+            padding: var(--space-md) var(--space-xl);
+            border-radius: 12px;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+            font-weight: 500;
+            color: #5a6c7a;
+        }
+
+        .logo-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+
+        /* FAQ */
+        .faq-item {
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 2px solid #f0f4f7;
+        }
+
+        .faq-item:hover {
+            padding-left: var(--space-sm);
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: var(--space-sm);
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .faq-answer {
+            color: #555;
+            line-height: 2;
+            padding-left: var(--space-md);
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--color-secondary) 0%, #cfe8f3 100%);
+            padding: var(--space-2xl) var(--space-xl);
+            border-radius: 16px;
+            text-align: center;
+            margin: var(--space-3xl) 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .cta-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: var(--space-lg);
+            line-height: 1.6;
+            letter-spacing: 0.05em;
+        }
+
+        .cta-text {
+            margin-bottom: var(--space-md);
+            line-height: 2;
+            font-size: 17px;
+        }
+
+        /* 強調テキスト */
+        .emphasis {
+            font-weight: 700;
+            color: var(--color-primary);
+            font-size: 18px;
+        }
+
+        /* セクション区切り */
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, var(--color-secondary) 50%, transparent 100%);
+            margin: var(--space-3xl) 0;
+        }
+
+        /* リンクスタイル */
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--color-primary-lighter);
+            text-decoration: underline;
+        }
+
+        a:focus {
+            outline: 2px solid var(--color-primary-light);
+            outline-offset: 2px;
+        }
+
+        /* フォーカス状態 */
+        *:focus-visible {
+            outline: 2px solid var(--color-primary-light);
+            outline-offset: 2px;
+        }
+
+        /* アニメーション */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 1024px) {
+            .container {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --space-xl: 32px;
+                --space-2xl: 48px;
+                --space-3xl: 64px;
+            }
+
+            .container {
+                padding: var(--space-lg) var(--space-sm);
+            }
+
+            .section {
+                padding: var(--space-lg) var(--space-md);
+            }
+
+            .section-title {
+                font-size: 24px;
+                padding: var(--space-md) var(--space-md);
+                margin: calc(var(--space-lg) * -1) calc(var(--space-md) * -1) var(--space-lg) calc(var(--space-md) * -1);
+            }
+
+            .header {
+                padding: var(--space-xl) var(--space-md);
+                margin-bottom: var(--space-2xl);
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+            .section-subtitle {
+                font-size: 20px;
+                margin-top: var(--space-xl);
+                margin-bottom: var(--space-md);
+            }
+
+            .btn {
+                width: 100%;
+                padding: var(--space-md) var(--space-lg);
+            }
+
+            .checklist {
+                padding: var(--space-lg) var(--space-md);
+            }
+
+            .highlight-box {
+                padding: var(--space-md) var(--space-md);
+            }
+
+            .image-placeholder {
+                padding: var(--space-xl) var(--space-md);
+            }
+
+            .illustration-placeholder {
+                padding: var(--space-lg) var(--space-sm);
+            }
+
+            .logo-grid {
+                flex-direction: column;
+                gap: var(--space-sm);
+            }
+
+            .cta-section {
+                padding: var(--space-xl) var(--space-lg);
+                margin: var(--space-2xl) 0;
+            }
+
+            .cta-title {
+                font-size: 22px;
+            }
+
+            .faq-item {
+                margin-bottom: var(--space-lg);
+                padding-bottom: var(--space-lg);
+                border-bottom: 2px solid #f0f4f7;
+            }
+
+            .faq-question {
+                font-size: 17px;
+            }
+
+            .faq-answer {
+                padding-left: 0;
+            }
+
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            vertical-align: middle;
+            /*border-radius: 8px;*/ /* 角を少し丸くするとデザインに馴染みます */
+        }
+        .img-small { width: 50%; }
+
+
+        /* お客様の声 */
+        .testimonial {
+            background: #fff;
+            padding: 12px var(--space-lg);
+
+            border-radius: 12px;
+            margin: 6px 0;
+            border-left: 5px solid var(--color-primary-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .testimonial:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .testimonial p {
+            margin-bottom: var(--space-sm);
+            line-height: 2;
+        }
+
+        .testimonial-age {
+            font-size: 14px;
+            color: var(--color-text-light);
+            margin-top: var(--space-sm);
+            text-align: right;
+        }
+
+        .testimonial-hidden {
+            display: none;
+        }
+        .testimonial-more-btn {
+            display: block;
+            width: 100%;
+            margin-top: 16px;
+            padding: 12px;
+            background: #fff;
+            border: 2px solid var(--color-primary);
+            border-radius: 8px;
+            color: var(--color-primary);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: var(--font-ja);
+        }
+        
+        .fixed-btn {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 -2px 12px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 追従ボタン -->
+        <div class="fixed-btn">
+            <a href="#purchase" class="btn btn-primary">▼ お申し込みはこちらから ▼</a>
+        </div>
+        <!-- ヘッダー -->
+        <div class="header fade-in">
+            <img src="./img/001-mainvisual.jpg">
+        </div>
+
+        <!-- 悩みセクション -->
+        <section class="section section-bg-1 fade-in">
+            <h2 class="section-title">最近、こんなお悩みはありませんか?</h2>
+            <div class="checklist">
+                <img src="./img/002-okomari.png" class="checklist-bg-image">
+                <div class="checklist-item">何にもする気が出ない</div>
+                <div class="checklist-item">本当はやりたいことが、まだまだあるのに</div>
+                <div class="checklist-item">前より疲れやすくなった</div>
+                <div class="checklist-item">イライラすることが増えた</div>
+                <div class="checklist-item">よく眠れない</div>
+                <div class="checklist-item">以前のような元気が戻らない</div>
+            </div>
+
+            <p>それは加齢やストレスによって減少する<span class="highlight-text">「性ホルモン」</span>が関係しているかもしれません。</p>
+
+            <div class="image-placeholder">
+            <img src="./img/003-hormone.jpg">
+            </div>
+
+            <p><span class="highlight-text">性ホルモン(テストステロン・エストロゲン)</span>は、活力や心の安定、体の調子に大きく関わっています。</p>
+
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- 成分セクション -->
+        <section class="section section-bg-2">
+            <h2 class="section-title">AGEHACKの成分について</h2>
+
+            <div class="illustration-placeholder" style="padding: 0; margin: 8px 0;">
+            <img src="./img/nagaimo01.jpg">
+            </div>
+
+            <!-- ジオスゲニン -->
+            <h3 class="section-subtitle">ジオスゲニン</h3>
+            
+            <p>この成分は耳慣れない方も多いかもしれませんが、いま<span class="highlight-text">世界の研究者が注目をしています。</span></p>
+
+            <p style="font-weight: 700; font-size: 20px; color: var(--color-primary);">「山芋を食べると精がつく」</p>
+            <p>昔からそう言われてきたことを、ご存知の方も多いのではないでしょうか。</p>
+            <p>中国では、山芋を<span class="highlight-text">「山薬」</span>と呼び、古くから滋養強壮の食材として重宝されてきました。その山芋の持つ活力の秘密が、この「ジオスゲニン」という成分です。</p>
+
+            <div class="illustration-placeholder">
+                <img src="./img/diosgenin_2_hormone.png">
+            </div>
+
+            <p>ジオスゲニンは山芋由来の天然成分で、<span class="highlight-text"><span class="en-number">DHEA</span>(デヒドロエピアンドロステロン)</span>というホルモンの前駆体に非常に類似した構造を持っています。</p>
+
+            <p>この<span class="en-number">DHEA</span>は、<span class="highlight-text">「若さのホルモン」「マザーホルモン」</span>とも呼ばれ、男性ホルモン(テストステロン)や女性ホルモン(エストロゲン)をはじめ、多くのホルモンの原料となる重要な物質です。</p>
+
+            <p><span class="en-number">DHEA</span>は<span class="highlight-text"><span class="en-number">20</span>代をピークに年齢とともに減少</span>していき、活力、筋力、認知機能、免疫力など、体のさまざまな機能に影響を与えることから、<span class="highlight-text">アンチエイジング分野でも大きな注目<span>を集めています。</p>
+
+            <p>ジオスゲニンは、体内でこの<span class="en-number">DHEA</span>を増やし、性ホルモン様の働きをすることで、ホルモンを作り出すための大切な材料を供給してくれます。</p>
+
+            <div class="highlight-box">
+                <p class="emphasis"><span class="highlight-text">3粒で山芋<span class="en-number">1.3kg</span>相当のジオスゲニン</span>が摂取できる</p>
+            </div>
+            <p>実は<span class="highlight-text">山芋に含まれるジオスゲニンは体内に吸収されづらく</span>、十分な効果を期待するには相当量を食べる必要があります。エイジハックは<span class="highlight-text">3粒に自然薯1.3kg相当のジオスゲニン</span>を配合。さらに、特殊技術で<span class="highlight-text">体内吸収性を約5倍に高めている</span>こともあり、気軽に山芋のパワーを摂取することができるのが特徴です。</p>
+            <div class="image-placeholder">
+                <img src="./img/5bai.png">
+            </div>
+            <div class="highlight-box">
+                <p class="emphasis">性ホルモン以外のメリットも</p>
+            </div>
+            <p>さらにジオスゲニンは下記のような分野で効果が期待できるとされています。</p>
+            <div class="illustration-placeholder">
+                <img src="./img/power-of-diosgenin.png">
+            </div>
+            <p>このように、ジオスゲニンは活力や心身の若々しさの維持への貢献が期待できる成分なのです。</p>
+
+
+            <!-- トリプトファン -->
+            <h3 class="section-subtitle">トリプトファン</h3>
+
+            <div class="illustration-placeholder" style="padding: 0; margin: 8px 0;">
+            <img src="./img/sleep.jpg">
+            </div>
+
+            <p style="font-weight: 500; font-size: 17px;">ストレス社会と言われる現代。<span class="highlight-text">心の安定と良い睡眠</span>が、かつてないほど大切になっています。</p>
+            <p style="font-weight: 700; font-size: 18px; color: var(--color-primary);">その両方をサポートする成分として、トリプトファンが注目されています。</p>
+
+            <p>トリプトファンは<span class="highlight-text">必須アミノ酸</span>の一つで、体内では作ることができません。そのため、食事やサプリメントから摂取する必要があります。</p>
+
+            <div class="illustration-placeholder">
+                <img src="./img/tryptophan-2-melatonin.png">
+            </div>
+
+            <p>体内に入ったトリプトファンは、<span class="highlight-text">セロトニン(別名:幸せホルモン)</span>に変化し、心の安定や落ち着きをもたらします。そしてセロトニンは夜になると、<span class="highlight-text">睡眠ホルモンであるメラトニン</span>へと変わります。</p>
+
+            <p>この<span class="highlight-text">質の良い睡眠</span>が、実は非常に重要です。睡眠中に体の機能が回復し、自律神経が整い、ホルモンバランスも調整されるからです。</p>
+
+            <p>さらに、質の良い睡眠はストレスを軽減し、体全体の炎症を抑える働きもあります。こうして心と体の良い循環が生まれるのです。</p>
+
+            <p>トリプトファンは、こうした一連の流れの最初のきっかけとなる成分なのです。</p>
+
+            <!-- ビタミン・ミネラル群 -->
+            <h3 class="section-subtitle">ビタミン・ミネラル群</h3>
+
+            <div class="illustration-placeholder" style="padding: 0; margin: 8px 0;">
+            <img src="./img/vitamin.jpg">
+            </div>
+
+            <p><span class="en-number">AGEHACK</span>には、<span class="highlight-text">ビタミン<span class="en-number">B6</span>、<span class="en-number">C</span>、<span class="en-number">D</span>、<span class="en-number">E</span></span>に加え、<span class="highlight-text">亜鉛やカルシウム</span>といったミネラルも配合しています。</p>
+
+            <p>これらの栄養素は、<span class="highlight-text">性ホルモンの生成プロセスにおいて欠かせない役割</span>を担っています。</p>
+
+            <p>特に<span class="highlight-text">亜鉛</span>は、性ホルモンの産生に直接関わる重要なミネラルで、不足するとホルモンバランスが崩れやすくなるため、継続的な摂取が大切になります。</p>
+
+            <p>カルシウムも、骨の健康維持だけでなく、神経伝達やホルモン分泌の調節に関わっています。体のさまざまな機能を円滑に保つために必要な栄養素です。</p>
+
+            <p>ビタミン群も、それぞれが連携して働きます。<span class="en-number">B6</span>はトリプトファンの変化を助け、<span class="en-number">D</span>はテストステロン産生をサポートし、<span class="en-number">C</span>と<span class="en-number">E</span>は抗酸化作用でストレスから体を守りながら、ホルモン産生そのものを助ける働きもしています。</p>
+
+            <p>つまりこれらのビタミン・ミネラル群は、単なる栄養補給ではなく、<span class="highlight-text">ホルモンを作り出し、維持していくために体が必要としている大切な材料</span>なのです。</p>
+
+
+<div class="highlight-box" style="background-image: linear-gradient(rgba(231,243,248,0.6), rgba(212,234,242,0.6)), url('./img/antiaging-s.jpg'); background-size: cover; background-position: center;">
+                <p>そして実は、これらの成分は<span class="highlight-text">美容</span>にも嬉しい働きをします。ビタミン<span class="en-number">C</span>と<span class="en-number">E</span>が肌の老化を防ぎ、亜鉛が肌の生まれ変わりを助け、ジオスゲニンがコラーゲンやヒアルロン酸の産生を促す。</p>
+                <p class="emphasis">活力を取り戻すだけでなく、<span class="highlight-text">肌のハリやツヤといった見た目の若々しさ</span>にもつながるのです。</p>
+            </div>
+
+
+            <div class="btn-container">
+                <a href="#purchase" class="btn btn-primary">▼お申し込みはこちらから▼</a>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- クリニック採用理由セクション -->
+        <section class="section section-bg-3">
+            <h2 class="section-title">多くのクリニックが<span class="en-number">AGEHACK</span>を<br>取り扱い、おすすめする理由</h2>
+
+            <p><span class="en-number">AGEHACK</span>は<span class="highlight-text">多くの泌尿器科・内科クリニック</span>で取り扱いが広がっていますが、それにも理由があります。</p>
+
+            <img src="./img/clinic-list.jpg" style="display: block; margin: 0 auto;">
+            <p style="font-size: 12px; color: #999; margin: 4px 0 0;text-align: right;">※取り扱いクリニックの一例</p>
+
+            <!-- 理由1 -->
+            <h3 class="section-subtitle">理由① 活力を生み出す力をサポートする設計</h3>
+            <div class="illustration-placeholder" style="padding: 0; margin: 8px 0;">
+            <img src="./img/dr-patient-s.jpg">
+            </div>
+
+            <p><span class="en-number">AGEHACK</span>は、活力源を補充するだけでなく、<span class="highlight-text">体が自ら活力を「生み出す力」をサポートする</span>成分設計になっています。</p>
+
+            <p>ホルモンの原料を補いながら、質の良い睡眠を促し、体を整える。</p>
+
+            <p>この<span class="en-number">3</span>つが組み合わさることで、<span class="highlight-text">「生活習慣の改善」や「休息の質向上」</span>といった中長期的に大切な行動変容のきっかけにもなります。</p>
+
+            <p class="emphasis">一時的な対症療法ではなく、<span class="highlight-text">根本から体を整えていくアプローチ</span>。</p>
+            <p>これが医療機関が推奨する理由の一つです。</p>
+
+
+            <!-- 理由2 -->
+            <h3 class="section-subtitle">理由② 家庭でも継続的なサポートができること</h3>
+
+            <div class="illustration-placeholder" style="padding: 0; margin: 8px 0;">
+            <img src="./img/athome.jpg">
+            </div>
+
+            <p>クリニックでのケアに加えて、<span class="highlight-text">ご自宅でも継続的に取り組める</span>ことが重要です。</p>
+
+            <p>遠方にお住まいの方や、お仕事で頻繁に通院するのが難しい方にとって、日常生活の中で続けられる対策は大きな助けになります。</p>
+
+            <p><span class="en-number">AGEHACK</span>は、ご自宅で手軽に続けていただけます。日々の生活習慣を見直すきっかけとして、また継続的なセルフケアの一つとして、多くの方にご利用いただいています。</p>
+
+            <p>こうした日常での取り組みに対するサポートは、医療機関が取り組みたい課題の一つなのです。</p>
+
+            <!-- 理由3 -->
+            <h3 class="section-subtitle">理由③ ご利用者様からの感想が良好なこと</h3>
+
+            <p>実際にご案内した方々からは<span class="highlight-text">男性・女性ともに、好意的なご感想</span>が寄せられています。</p>
+
+
+            <div class="testimonial">
+                <p>徐々にですが、今までの更年期状態の改善を実感しています。(<span class="en-number">50</span>代 男性)</p>
+            </div>
+            <div class="testimonial">
+                <p>体調良く眠れるようになり、体も温まってとても良いです(<span class="en-number">40</span>代 女性)</p>
+            </div>
+            <div class="testimonial">
+                <p>体の状態が良くなりました。効果は実感しました。(<span class="en-number">40</span>代 男性)</p>
+            </div>
+            <div class="testimonial-hidden" id="testimonial-more">
+                <div class="testimonial">
+                    <p>満足行く効果を感じています。周囲の人にもオススメしています。(<span class="en-number">40</span>代 女性)</p>
+                </div>
+                <div class="testimonial">
+                    <p>夫に飲ませていますが、妻の私から見て良い商品だなと思います。(<span class="en-number">50</span>代 女性)</p>
+                </div>
+                <div class="testimonial">
+                    <p>体力はあるけど気持ちが追いつかないなと感じていました。「動けるようになった」と感じますし、夜も眠れています。(<span class="en-number">30</span>代 女性)</p>
+                </div>
+            </div>
+            <button class="testimonial-more-btn" onclick="document.getElementById('testimonial-more').style.display='block'; this.style.display='none';">
+                他のご感想も見る ▼
+            </button>
+            <p>こうした声も、医師が自信を持ってお勧めできる理由の一つになっています。</p>
+
+
+
+            <!-- 医師間の紹介 -->
+            <h3 class="section-subtitle">医師が医師に紹介したくなるサプリメントです</h3>
+
+            <div class="illustration-placeholder" style="padding: 0; margin: 8px 0;">
+            <img src="./img/gakkai.jpg">
+            </div>
+
+            <p>多くの医師は、成分設計を理解したのちに、まず<span class="highlight-text">自分自身で試します。</span></p>
+            <p>試した結果「これは良い」となり、<span class="highlight-text">信頼関係のある医師に紹介</span>する。</p>
+            <p>(実は、活力対策に苦慮されている医師は結構いらっしゃいます。)</p>
+            <p><span class="en-number">AGEHACK</span>の取り扱いが広がっているのは、こうした<span class="highlight-text">口コミもきっかけ</span>になっています。</p>
+            
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- CTAセクション -->
+        <section class="cta-section">
+            <h2 class="cta-title">「まだまだ、やりたいことがある」</h2>
+            <p class="cta-text">そう感じていらっしゃる方に、ホルモンケアという選択肢を。</p>
+            
+            <p class="cta-text" style="margin-top: var(--space-lg);">年齢とともに減少する性ホルモンは、活力や心の安定、体の調子に大きく関わっています。</p>
+            
+            <div class="illustration-placeholder">
+                [イラスト: 活力に満ちた人のイラスト]
+            </div>
+            
+            <p class="cta-text" style="margin-top: var(--space-lg); font-weight: 500; font-size: 18px;">やりたいことに向かって動き出せる自分。<br>鏡を見て「ちょっと変わったかも」と感じられる自分。</p>
+            
+            <p class="cta-text" style="margin-top: var(--space-lg); font-weight: 700; font-size: 19px; color: var(--color-primary);">そんな変化に向けて、あなたも一歩踏み出しませんか?</p>
+
+            <div class="btn-container" style="margin-top: var(--space-xl);">
+                <a href="#purchase" class="btn btn-primary">▼お申し込みはこちらから▼</a>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section section-bg-1" id="faq">
+            <h2 class="section-title">よくあるご質問</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">Q. どのくらいで届きますか?</div>
+                <div class="faq-answer">A. ご注文後、<span class="highlight-text"><span class="en-number">1〜2</span>営業日で発送</span>いたします。発送後は<span class="en-number">2</span>日程度でお手元に届きます。</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Q. 1日何粒飲めばいいですか?</div>
+                <div class="faq-answer">A. <span class="highlight-text">男性の場合は1日<span class="en-number">3</span>粒。女性の場合は1日<span class="en-number">1</span>粒〜<span class="en-number">3</span>粒</span>が目安です。</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Q. 一袋に何粒入っていますか？</div>
+                <div class="faq-answer">A. <span class="highlight-text"><span class="en-number">1</span>袋(<span class="en-number">90</span>粒)</span>となります。男性の場合は約<span class="en-number">1</span>ヶ月分。女性の場合は<span class="en-number">1</span>ヶ月〜<span class="en-number">3</span>ヶ月分です。</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Q. いつ飲むのが効果的ですか?</div>
+                <div class="faq-answer">A. <span class="highlight-text">朝食後のタイミング</span>がおすすめです。毎日同じ時間に飲むと習慣化しやすくなります。</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Q. 男性・女性どちらでも使えますか?</div>
+                <div class="faq-answer">A. はい、<span class="highlight-text">男女問わず</span>お使いいただけます。</div>
+            </div>
+
+            <div class="testimonial-hidden" id="faq-more">
+                <div class="faq-item">
+                    <div class="faq-question">Q. どのくらいで変化を感じますか?</div>
+                    <div class="faq-answer">A. 個人差がありますが、多くの方が<span class="highlight-text"><span class="en-number">1-3</span>ヶ月程度で変化を実感</span>されています。継続してお飲みいただくことをおすすめします。</div>
+                </div>
+    
+                <div class="faq-item">
+                    <div class="faq-question">Q. 薬と併用しても大丈夫ですか?</div>
+                    <div class="faq-answer">A. 食品ですので基本的に問題ありませんが、治療中の方、お薬を服用中の方は<span class="highlight-text">念のため担当医にご相談</span>ください。</div>
+                </div>
+    
+                <div class="faq-item">
+                    <div class="faq-question">Q. 副作用はありますか?</div>
+                    <div class="faq-answer">A. <span class="highlight-text">山芋アレルギーの方</span>には推奨できない可能性があります。万が一体質に合わない場合は使用を中止し、医師にご相談ください。</div>
+                </div>
+    
+                <div class="faq-item">
+                    <div class="faq-question">Q. 配偶者のために購入しても大丈夫ですか?</div>
+                    <div class="faq-answer">A. はい、<span class="highlight-text">ご家族のためにご購入される方</span>も多くいらっしゃいます。</div>
+                </div>
+            </div>
+            <button class="testimonial-more-btn" onclick="document.getElementById('faq-more').style.display='block'; this.style.display='none';">
+                他のご質問も見る ▼
+            </button>
+        </section>
+
+        <!-- 購入案内 -->
+        <section class="section section-bg-2" id="purchase">
+            <h2 class="section-title"><span class="en-number">AGEHACK</span>ご購入のご案内</h2>
+            <p>AGEHACKはこのページの下にある申込フォームからご購入いただけます。</p>
+            
+            <p>現在の定価は<strong>6,480円(消費税込)</strong>※こちらに配送料270円がかかります。</p>
+            
+            <p>ご購入方法は<br>
+            「単品購入」<br>
+            「定期コース」<br>
+            の2種類があります。<strong>お申し込みフォームの「商品」項目から選択</strong>してください。
+            </p>
+            
+            <p>定期コースは30日ごとに自動的に配送されるので、そのつど購入の手間なく、続けやすいのがメリットです。<br>
+            また、定期コースは価格が全体的にお得になっています。</p>
+            
+            <p><strong>定期コースの価格</strong>は<br>
+            <strong>・<span class="highlight-text">初回3,980円</span>(消費税込み、送料込み)※38%引き</strong><br>
+            <strong>・<span class="highlight-text">2回目以降は5,813円</span>(消費税込み、送料別)※10%引き</strong><br>
+            で購入できます。</p>
+            
+            <p><strong>初回のみでも解約はできます</strong>ので、まずはお試ししてみたいという方にもおすすめです。</p>
+            
+            <p>※解約を行いたい方は、次回配送の10日前までにメールまたは<strong><a href="https://store.kasseiken.net/contact/" target="_blank">お問い合わせフォーム</a></strong>から連絡してください。(詳しくは「<strong><a href="https://store.kasseiken.net/returning/" target="_blank">キャンセル・返品等について</a></strong>」をご覧ください)</p>
+            
+            
+            <p>[注意事項]<br>
+            定期コース初回特別価格は1世帯あたり1回限りとなっています。</p>
+        </section>
+    </div>
+<script>
+    const fixedBtn = document.querySelector('.fixed-btn');
+    const purchase = document.getElementById('purchase');
+
+    window.addEventListener('scroll', function() {
+        const purchaseTop = purchase.getBoundingClientRect().top;
+        fixedBtn.style.display = purchaseTop <= window.innerHeight ? 'none' : 'block';
+    });
+</script>
+</body>
+</html>
