@@ -72,12 +72,14 @@
 
         /* ヘッダー */
         .header {
-            text-align: center;
-            padding: var(--space-2xl) var(--space-lg);
-            background: linear-gradient(135deg, #f0f7fa 0%, #e3f2f7 100%);
-            border-radius: 16px;
-            margin-bottom: var(--space-3xl);
-            box-shadow: var(--shadow-md);
+            padding: 0;
+            background: none;
+            border-radius: 0;
+            margin-bottom: var(--space-lg);
+            margin-left: calc(var(--space-lg) * -1);
+            margin-right: calc(var(--space-lg) * -1);
+            box-shadow: none;
+            overflow: hidden;
         }
 
         .header h1 {
@@ -86,6 +88,11 @@
             color: var(--color-primary);
             margin-bottom: var(--space-sm);
             letter-spacing: 0.08em;
+        }
+
+        .header img {
+            width: 100%;
+            display: block;
         }
 
         /* セクション */
@@ -378,8 +385,8 @@
             text-align: center;
             margin: var(--space-3xl) 0;
             box-shadow: var(--shadow-md);
+            overflow: hidden;  /* 追加 */
         }
-
         .cta-title {
             font-size: 26px;
             font-weight: 700;
@@ -477,14 +484,21 @@
             }
 
             .header {
-                padding: var(--space-xl) var(--space-md);
-                margin-bottom: var(--space-2xl);
+                padding: 0;
+                border-radius: 0;
+                margin-bottom: var(--space-lg);
+                margin-left: calc(var(--space-md) * -1);
+                margin-right: calc(var(--space-md) * -1);
             }
 
             .header h1 {
                 font-size: 26px;
             }
 
+            .header img {
+                width: 100%;
+                display: block;
+            }
             .section-subtitle {
                 font-size: 20px;
                 margin-top: var(--space-xl);
@@ -607,6 +621,98 @@
             box-shadow: 0 -2px 12px rgba(0,0,0,0.1);
             z-index: 100;
         }
+
+.price-grid {
+    display: flex;
+    gap: 16px;
+    margin: 24px 0;
+}
+
+.price-box {
+    flex: 1;
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.price-box.featured {
+    border-color: var(--color-primary-light);
+    background: var(--color-secondary-light);
+}
+
+.price-box-label {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--color-text-light);
+    margin-bottom: 12px;
+}
+
+.featured .price-box-label {
+    color: var(--color-primary);
+}
+
+.price-box-price {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.featured .price-box-price {
+    color: var(--color-primary);
+}
+
+.price-box-note {
+    font-size: 12px;
+    color: var(--color-text-lighter);
+    margin-top: 4px;
+}
+
+.price-box-divider {
+    border-top: 1px solid var(--color-border);
+    margin: 12px 0;
+}
+
+.price-box-sub {
+    font-size: 13px;
+    color: var(--color-text-light);
+    margin-bottom: 6px;
+}
+
+
+.column-box {
+    border: 2px dashed var(--color-primary-light);
+    border-radius: 12px;
+    padding: var(--space-md) var(--space-lg);
+    margin: var(--space-lg) 0;
+    background: #fff;
+    position: relative;
+}
+
+.column-box-label {
+    display: inline-block;
+    background: var(--color-primary-light);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+}
+.column-box-label.beauty {
+    background: #e8a87c;
+}
+
+.beauty-box {
+    background: #fff;
+    border: 2px dashed #e8a87c;
+    border-left: 2px dashed #e8a87c;
+}
     </style>
 </head>
 <body>
@@ -647,14 +753,14 @@
 
         <!-- 成分セクション -->
         <section class="section section-bg-2">
-            <h2 class="section-title">AGEHACKの成分について</h2>
+            <h2 class="section-title">注目すべき3つの成分について</h2>
+
+            <!-- ジオスゲニン -->
+            <h3 class="section-subtitle">① ジオスゲニン</h3>
 
             <div class="illustration-placeholder" style="padding: 0; margin: 8px 0;">
             <img src="./img/nagaimo01.jpg">
             </div>
-
-            <!-- ジオスゲニン -->
-            <h3 class="section-subtitle">ジオスゲニン</h3>
             
             <p>この成分は耳慣れない方も多いかもしれませんが、いま<span class="highlight-text">世界の研究者が注目をしています。</span></p>
 
@@ -665,22 +771,14 @@
             <div class="illustration-placeholder">
                 <img src="./img/diosgenin_2_hormone.png">
             </div>
+            <p>ジオスゲニンは山芋由来の天然成分で、体内の<span class="highlight-text">DHEA（デヒドロエピアンドロステロン）</span>を増やし、またDHEAと似た働きをすると言われています。</p>
 
-            <p>ジオスゲニンは山芋由来の天然成分で、<span class="highlight-text"><span class="en-number">DHEA</span>(デヒドロエピアンドロステロン)</span>というホルモンの前駆体に非常に類似した構造を持っています。</p>
+            <p>このDHEAは<span class="highlight-text">「若さのホルモン」「マザーホルモン」</span>とも呼ばれる、体の中でも特別な存在。</p>
+            <p>実は活力や筋力、認知機能、免疫力など、<strong>体のあらゆる機能に深く関わっています。</strong></p>
+            <p>そしてDHEAは<span class="highlight-text">テストステロンやエストロゲンといった性ホルモンの原料</span>にもなるのです。</p>
+            <p>(ですので、<strong>アンチエイジング分野でも注目</strong>を集めています)</p>
+            <p>ところがこのDHEA、<strong>20代をピークに減っていってしまう</strong>のです。</p>
 
-            <p>この<span class="en-number">DHEA</span>は、<span class="highlight-text">「若さのホルモン」「マザーホルモン」</span>とも呼ばれ、男性ホルモン(テストステロン)や女性ホルモン(エストロゲン)をはじめ、多くのホルモンの原料となる重要な物質です。</p>
-
-            <p><span class="en-number">DHEA</span>は<span class="highlight-text"><span class="en-number">20</span>代をピークに年齢とともに減少</span>していき、活力、筋力、認知機能、免疫力など、体のさまざまな機能に影響を与えることから、<span class="highlight-text">アンチエイジング分野でも大きな注目<span>を集めています。</p>
-
-            <p>ジオスゲニンは、体内でこの<span class="en-number">DHEA</span>を増やし、性ホルモン様の働きをすることで、ホルモンを作り出すための大切な材料を供給してくれます。</p>
-
-            <div class="highlight-box">
-                <p class="emphasis"><span class="highlight-text">3粒で山芋<span class="en-number">1.3kg</span>相当のジオスゲニン</span>が摂取できる</p>
-            </div>
-            <p>実は<span class="highlight-text">山芋に含まれるジオスゲニンは体内に吸収されづらく</span>、十分な効果を期待するには相当量を食べる必要があります。エイジハックは<span class="highlight-text">3粒に自然薯1.3kg相当のジオスゲニン</span>を配合。さらに、特殊技術で<span class="highlight-text">体内吸収性を約5倍に高めている</span>こともあり、気軽に山芋のパワーを摂取することができるのが特徴です。</p>
-            <div class="image-placeholder">
-                <img src="./img/5bai.png">
-            </div>
             <div class="highlight-box">
                 <p class="emphasis">性ホルモン以外のメリットも</p>
             </div>
@@ -688,62 +786,63 @@
             <div class="illustration-placeholder">
                 <img src="./img/power-of-diosgenin.png">
             </div>
-            <p>このように、ジオスゲニンは活力や心身の若々しさの維持への貢献が期待できる成分なのです。</p>
-
+            <p>ジオスゲニンは<strong>活力や心身の若々しさの維持</strong>へ期待から、<strong>世界の研究者に注目</strong>されています。</p>
+            
+            <div class="column-box">
+                <div class="column-box-label">POINT</div>
+                <p>実は山芋に含まれるジオスゲニンは、<span class="highlight-text">体内に吸収されづらい</span>成分です。十分な効果を期待するには、相当量を食べる必要があります。</p>
+                <p>AGEHACKは特殊技術で<span class="highlight-text">吸収性を約5倍に高めた</span>上で、<span class="highlight-text">3粒に自然薯1.3kg相当のジオスゲニン</span>を配合。手軽に、効率よく摂取できます。</p>
+                <div class="illustration-placeholder" style="padding:0; margin: 8px 0;">
+                    <img src="./img/5bai.png">
+                </div>
+            </div>
 
             <!-- トリプトファン -->
-            <h3 class="section-subtitle">トリプトファン</h3>
+            <h3 class="section-subtitle">② トリプトファン</h3>
 
             <div class="illustration-placeholder" style="padding: 0; margin: 8px 0;">
             <img src="./img/sleep.jpg">
             </div>
 
-            <p style="font-weight: 500; font-size: 17px;">ストレス社会と言われる現代。<span class="highlight-text">心の安定と良い睡眠</span>が、かつてないほど大切になっています。</p>
-            <p style="font-weight: 700; font-size: 18px; color: var(--color-primary);">その両方をサポートする成分として、トリプトファンが注目されています。</p>
+            <p>ストレス社会と言われる現代。<span class="highlight-text">心の安定と良い睡眠</span>が、かつてないほど大切になっています。</p>
+            <p>実は、眠りの質はホルモンバランスと深く関わっています。</p>
+            <p>鍵を握るのは、<span class="highlight-text">セロトニンとメラトニン</span>という2つのホルモン。セロトニンは心を穏やかに整え、メラトニンは自然な眠りへと導く。この2つが正常に働くことで、質の良い睡眠が生まれます。</p>
+                        <div class="illustration-placeholder">
+                            <img src="./img/tryptophan-2-melatonin.png">
+                        </div>
+            <p>そして質の良い睡眠は、体を回復させ、自律神経を整え、ホルモンバランスを調整します。つまり<strong>眠ることがホルモンケアになる</strong>のです。</p>
+            <p>ところがこの2つのホルモン、体内で直接作ることはできず、原料となる栄養素が必要。それが<span class="highlight-text">トリプトファン</span>です。</p>
+    <p>トリプトファンは<strong>必須アミノ酸</strong>の一つで、体内では合成できないため、食事やサプリメントから摂る必要があります。</p>
+<p><strong>心の安定と良い睡眠。この連鎖の出発点</strong>となる、とても重要な成分なのです。</p>
 
-            <p>トリプトファンは<span class="highlight-text">必須アミノ酸</span>の一つで、体内では作ることができません。そのため、食事やサプリメントから摂取する必要があります。</p>
 
-            <div class="illustration-placeholder">
-                <img src="./img/tryptophan-2-melatonin.png">
-            </div>
 
-            <p>体内に入ったトリプトファンは、<span class="highlight-text">セロトニン(別名:幸せホルモン)</span>に変化し、心の安定や落ち着きをもたらします。そしてセロトニンは夜になると、<span class="highlight-text">睡眠ホルモンであるメラトニン</span>へと変わります。</p>
-
-            <p>この<span class="highlight-text">質の良い睡眠</span>が、実は非常に重要です。睡眠中に体の機能が回復し、自律神経が整い、ホルモンバランスも調整されるからです。</p>
-
-            <p>さらに、質の良い睡眠はストレスを軽減し、体全体の炎症を抑える働きもあります。こうして心と体の良い循環が生まれるのです。</p>
-
-            <p>トリプトファンは、こうした一連の流れの最初のきっかけとなる成分なのです。</p>
 
             <!-- ビタミン・ミネラル群 -->
-            <h3 class="section-subtitle">ビタミン・ミネラル群</h3>
+            <h3 class="section-subtitle">③ ビタミン・ミネラル群</h3>
 
             <div class="illustration-placeholder" style="padding: 0; margin: 8px 0;">
             <img src="./img/vitamin.jpg">
             </div>
 
-            <p><span class="en-number">AGEHACK</span>には、<span class="highlight-text">ビタミン<span class="en-number">B6</span>、<span class="en-number">C</span>、<span class="en-number">D</span>、<span class="en-number">E</span></span>に加え、<span class="highlight-text">亜鉛やカルシウム</span>といったミネラルも配合しています。</p>
+            <p>AGEHACKには、<span class="highlight-text">ビタミンB6・C・D・E</span>、そして<span class="highlight-text">亜鉛やカルシウム</span>といったミネラルを配合しています。</p>
+            <p>亜鉛やビタミンDは<strong>ホルモン産生</strong>に直接関わり、B6は<strong>トリプトファンの働きを助け</strong>、C・Eは抗酸化作用で<strong>ホルモン産生の環境を整える</strong>。それぞれが役割を持ち、<strong>連携して働きます。</strong></p>
+            <p>ビタミン・ミネラル群は、それ単独でもホルモンケアに貢献しますが、さらにジオスゲニンやトリプトファンと組み合わさることで、<span class="highlight-text">より相乗的な効果が期待できます。</span></p>
 
-            <p>これらの栄養素は、<span class="highlight-text">性ホルモンの生成プロセスにおいて欠かせない役割</span>を担っています。</p>
-
-            <p>特に<span class="highlight-text">亜鉛</span>は、性ホルモンの産生に直接関わる重要なミネラルで、不足するとホルモンバランスが崩れやすくなるため、継続的な摂取が大切になります。</p>
-
-            <p>カルシウムも、骨の健康維持だけでなく、神経伝達やホルモン分泌の調節に関わっています。体のさまざまな機能を円滑に保つために必要な栄養素です。</p>
-
-            <p>ビタミン群も、それぞれが連携して働きます。<span class="en-number">B6</span>はトリプトファンの変化を助け、<span class="en-number">D</span>はテストステロン産生をサポートし、<span class="en-number">C</span>と<span class="en-number">E</span>は抗酸化作用でストレスから体を守りながら、ホルモン産生そのものを助ける働きもしています。</p>
-
-            <p>つまりこれらのビタミン・ミネラル群は、単なる栄養補給ではなく、<span class="highlight-text">ホルモンを作り出し、維持していくために体が必要としている大切な材料</span>なのです。</p>
-
-
-<div class="highlight-box" style="background-image: linear-gradient(rgba(231,243,248,0.6), rgba(212,234,242,0.6)), url('./img/antiaging-s.jpg'); background-size: cover; background-position: center;">
-                <p>そして実は、これらの成分は<span class="highlight-text">美容</span>にも嬉しい働きをします。ビタミン<span class="en-number">C</span>と<span class="en-number">E</span>が肌の老化を防ぎ、亜鉛が肌の生まれ変わりを助け、ジオスゲニンがコラーゲンやヒアルロン酸の産生を促す。</p>
+            <div class="column-box beauty-box">
+                <div class="column-box-label beauty">
+                    <span style="font-size: 8px; display: inline-block; transform: rotate(-30deg); vertical-align: middle;">♡</span>
+                    <span style="font-size: 13px; display: inline-block; transform: rotate(15deg); vertical-align: middle;">♡</span>
+                    BEAUTY
+                    <span style="font-size: 13px; display: inline-block; transform: rotate(-15deg); vertical-align: middle;">♡</span>
+                <span style="font-size: 8px; display: inline-block; transform: rotate(30deg); vertical-align: middle;">♡</span>
+            </div>
+                <p>実はこれらの成分、<span class="highlight-text">美容</span>にも嬉しい効果があります。<br>ビタミン<span class="en-number">C</span>と<span class="en-number">E</span>が<strong>肌の老化を防ぎ</strong>、亜鉛が<strong>肌の生まれ変わりを助け</strong>、ジオスゲニンは<strong>ジオスゲニンはコラーゲンやヒアルロン酸との関連も注目されています</strong>。</p>
                 <p class="emphasis">活力を取り戻すだけでなく、<span class="highlight-text">肌のハリやツヤといった見た目の若々しさ</span>にもつながるのです。</p>
             </div>
 
 
-            <div class="btn-container">
-                <a href="#purchase" class="btn btn-primary">▼お申し込みはこちらから▼</a>
-            </div>
+
         </section>
 
         <div class="section-divider"></div>
@@ -752,7 +851,7 @@
         <section class="section section-bg-3">
             <h2 class="section-title">多くのクリニックが<span class="en-number">AGEHACK</span>を<br>取り扱い、おすすめする理由</h2>
 
-            <p><span class="en-number">AGEHACK</span>は<span class="highlight-text">多くの泌尿器科・内科クリニック</span>で取り扱いが広がっていますが、それにも理由があります。</p>
+            <p><span class="en-number">AGEHACK</span>は<span class="highlight-text">多くの泌尿器科・内科クリニック</span>で取り扱いが広がっていますが、それには理由があります。</p>
 
             <img src="./img/clinic-list.jpg" style="display: block; margin: 0 auto;">
             <p style="font-size: 12px; color: #999; margin: 4px 0 0;text-align: right;">※取り扱いクリニックの一例</p>
@@ -765,11 +864,11 @@
 
             <p><span class="en-number">AGEHACK</span>は、活力源を補充するだけでなく、<span class="highlight-text">体が自ら活力を「生み出す力」をサポートする</span>成分設計になっています。</p>
 
-            <p>ホルモンの原料を補いながら、質の良い睡眠を促し、体を整える。</p>
+            <p><strong>①ホルモンの原料を補い</strong>ながら、<strong>②質の良い睡眠を促し</strong>、<strong>③体を整える</strong>。</p>
 
-            <p>この<span class="en-number">3</span>つが組み合わさることで、<span class="highlight-text">「生活習慣の改善」や「休息の質向上」</span>といった中長期的に大切な行動変容のきっかけにもなります。</p>
+            <p>この<span class="en-number">3</span>つが組み合わさることで、<span class="highlight-text">「生活習慣の改善」や「休息の質向上」</span>といった中長期的に大切な<strong>行動変容</strong>のきっかけにもなります。</p>
 
-            <p class="emphasis">一時的な対症療法ではなく、<span class="highlight-text">根本から体を整えていくアプローチ</span>。</p>
+            <p class="emphasis">一時的な対症療法的ではなく、<span class="highlight-text">根本から体を整えていくアプローチ</span>。</p>
             <p>これが医療機関が推奨する理由の一つです。</p>
 
 
@@ -780,38 +879,36 @@
             <img src="./img/athome.jpg">
             </div>
 
-            <p>クリニックでのケアに加えて、<span class="highlight-text">ご自宅でも継続的に取り組める</span>ことが重要です。</p>
-
-            <p>遠方にお住まいの方や、お仕事で頻繁に通院するのが難しい方にとって、日常生活の中で続けられる対策は大きな助けになります。</p>
-
-            <p><span class="en-number">AGEHACK</span>は、ご自宅で手軽に続けていただけます。日々の生活習慣を見直すきっかけとして、また継続的なセルフケアの一つとして、多くの方にご利用いただいています。</p>
-
-            <p>こうした日常での取り組みに対するサポートは、医療機関が取り組みたい課題の一つなのです。</p>
+            <p>クリニックでのケアに加えて、ご自宅でも継続的に取り組めることはとても重要です。</p>
+            <p><strong>AGEHACKは、ご自宅に直接お届けする</strong>(※)<strong>サプリメント。</strong>クリニックに来られなくても、日々の生活習慣を見直すきっかけとして、また継続的なセルフケアの一つとして続けていただけます。</p>
+            <p>遠方にお住まいの方や、お仕事で頻繁に通院するのが難しい方にとって、<span class="highlight-text">日常生活の中で続けられる対策</span>は、思いのほか大きな助けになるものです。</p>
+            <p>毎日のケアを支えること。これは、<strong>医療機関が取り組みたい課題の一つ</strong>です。</p>
+            <p>(※一部の医療機関では院内で直接ご購入いただけます。)</p>
 
             <!-- 理由3 -->
-            <h3 class="section-subtitle">理由③ ご利用者様からの感想が良好なこと</h3>
+            <h3 class="section-subtitle">理由③ 利用者からの感想</h3>
 
             <p>実際にご案内した方々からは<span class="highlight-text">男性・女性ともに、好意的なご感想</span>が寄せられています。</p>
 
 
             <div class="testimonial">
-                <p>徐々にですが、今までの更年期状態の改善を実感しています。(<span class="en-number">50</span>代 男性)</p>
+                <p>徐々にですが、なんとなく感じていた不調が、気にならなくなってきました。(<span class="en-number">50</span>代 男性)</p>
             </div>
             <div class="testimonial">
                 <p>体調良く眠れるようになり、体も温まってとても良いです(<span class="en-number">40</span>代 女性)</p>
             </div>
             <div class="testimonial">
-                <p>体の状態が良くなりました。効果は実感しました。(<span class="en-number">40</span>代 男性)</p>
+                <p>体の調子が良い感じがしています。(<span class="en-number">40</span>代 男性)</p>
             </div>
             <div class="testimonial-hidden" id="testimonial-more">
                 <div class="testimonial">
-                    <p>満足行く効果を感じています。周囲の人にもオススメしています。(<span class="en-number">40</span>代 女性)</p>
+                    <p>続けてみて満足しています。周囲の人にもオススメしています。(<span class="en-number">40</span>代 女性)</p>
                 </div>
                 <div class="testimonial">
                     <p>夫に飲ませていますが、妻の私から見て良い商品だなと思います。(<span class="en-number">50</span>代 女性)</p>
                 </div>
                 <div class="testimonial">
-                    <p>体力はあるけど気持ちが追いつかないなと感じていました。「動けるようになった」と感じますし、夜も眠れています。(<span class="en-number">30</span>代 女性)</p>
+                    <p>体力はあるけど気持ちが追いつかないなと感じていました。以前より「前向きに動けるようになった」と感じますし、夜も眠れています。(<span class="en-number">30</span>代 女性)</p>
                 </div>
             </div>
             <button class="testimonial-more-btn" onclick="document.getElementById('testimonial-more').style.display='block'; this.style.display='none';">
@@ -836,25 +933,24 @@
         </section>
 
         <div class="section-divider"></div>
-
         <!-- CTAセクション -->
-        <section class="cta-section">
-            <h2 class="cta-title">「まだまだ、やりたいことがある」</h2>
-            <p class="cta-text">そう感じていらっしゃる方に、ホルモンケアという選択肢を。</p>
-            
-            <p class="cta-text" style="margin-top: var(--space-lg);">年齢とともに減少する性ホルモンは、活力や心の安定、体の調子に大きく関わっています。</p>
-            
-            <div class="illustration-placeholder">
-                [イラスト: 活力に満ちた人のイラスト]
+<section class="cta-section" style="padding: 0; overflow: hidden;">
+<img src="./img/doctor-recommend.jpg" style="display: block; width: 100%; margin-bottom: var(--space-2xl);">
+            <div style="padding: 0 var(--space-xl) var(--space-2xl);">
+                <h2 class="cta-title">「まだまだ、やりたいことがある」</h2>
+                <p class="cta-text">そう感じていらっしゃる方に<strong>ホルモンケア</strong>という選択肢を。</p>
+                
+                <p class="cta-text" style="margin-top: var(--space-lg);">年齢とともに減少する性ホルモンは、活力や心の安定、体の調子に大きく関わっています。</p>
+                
+                <div class="illustration-placeholder" style="padding: 0; margin: 8px 0;">
+                <img src="./img/future.png">
+                </div>
+                
+                <p class="cta-text" style="margin-top: var(--space-lg); font-weight: 500; font-size: 18px;">やりたいことに向かって動き出せる自分。<br>鏡を見て「ちょっと変わったかも」と感じられる自分。</p>
+                
+                <p class="cta-text" style="margin-top: var(--space-lg); font-weight: 700; font-size: 19px; color: var(--color-primary);">そんな変化に向けて、あなたも一歩踏み出しませんか?</p>
             </div>
-            
-            <p class="cta-text" style="margin-top: var(--space-lg); font-weight: 500; font-size: 18px;">やりたいことに向かって動き出せる自分。<br>鏡を見て「ちょっと変わったかも」と感じられる自分。</p>
-            
-            <p class="cta-text" style="margin-top: var(--space-lg); font-weight: 700; font-size: 19px; color: var(--color-primary);">そんな変化に向けて、あなたも一歩踏み出しませんか?</p>
 
-            <div class="btn-container" style="margin-top: var(--space-xl);">
-                <a href="#purchase" class="btn btn-primary">▼お申し込みはこちらから▼</a>
-            </div>
         </section>
 
         <!-- FAQ -->
@@ -917,23 +1013,32 @@
             <h2 class="section-title"><span class="en-number">AGEHACK</span>ご購入のご案内</h2>
             <p>AGEHACKはこのページの下にある申込フォームからご購入いただけます。</p>
             
-            <p>現在の定価は<strong>6,480円(消費税込)</strong>※こちらに配送料270円がかかります。</p>
-            
-            <p>ご購入方法は<br>
-            「単品購入」<br>
-            「定期コース」<br>
-            の2種類があります。<strong>お申し込みフォームの「商品」項目から選択</strong>してください。
+            <p>ご購入方法は「単品購入」「定期コース」の2種類があります。
+<div class="price-grid">
+    <div class="price-box">
+        <div class="price-box-label">単品購入</div>
+        <div class="price-box-price">6,480円</div>
+        <div class="price-box-note">消費税込 / 送料270円別</div>
+    </div>
+    <div class="price-box featured">
+        <div class="price-box-label">定期コース</div>
+        <div class="price-box-sub">初回</div>
+        <div class="price-box-price">3,980円</div>
+        <div class="price-box-note">消費税込・送料込 ※38%引き</div>
+        <div class="price-box-divider"></div>
+        <div class="price-box-sub">2回目以降</div>
+        <div class="price-box-price">5,813円</div>
+        <div class="price-box-note">消費税込 / 送料別 ※10%引き</div>
+    </div>
+</div>
+
+
+            <p>「単品」か「定期コース」かは<strong>お申し込みフォームの「商品」項目から選択</strong>してください。
             </p>
             
-            <p>定期コースは30日ごとに自動的に配送されるので、そのつど購入の手間なく、続けやすいのがメリットです。<br>
-            また、定期コースは価格が全体的にお得になっています。</p>
-            
-            <p><strong>定期コースの価格</strong>は<br>
-            <strong>・<span class="highlight-text">初回3,980円</span>(消費税込み、送料込み)※38%引き</strong><br>
-            <strong>・<span class="highlight-text">2回目以降は5,813円</span>(消費税込み、送料別)※10%引き</strong><br>
-            で購入できます。</p>
-            
-            <p><strong>初回のみでも解約はできます</strong>ので、まずはお試ししてみたいという方にもおすすめです。</p>
+            <p><strong>定期コース</strong>は30日ごとに自動的に配送されるので、そのつど購入の手間なく、続けやすいのがメリットです。<br>
+            また<strong>価格が全体的にお得</strong>になっています。<br>
+            <strong>初回のみでも解約はできます</strong>ので、まずは試してみたいという方にもおすすめです。</p>
             
             <p>※解約を行いたい方は、次回配送の10日前までにメールまたは<strong><a href="https://store.kasseiken.net/contact/" target="_blank">お問い合わせフォーム</a></strong>から連絡してください。(詳しくは「<strong><a href="https://store.kasseiken.net/returning/" target="_blank">キャンセル・返品等について</a></strong>」をご覧ください)</p>
             
